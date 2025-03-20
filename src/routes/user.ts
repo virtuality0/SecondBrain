@@ -1,14 +1,10 @@
 import { Router } from "express";
 import { User } from "../db";
-import mongoose, { MongooseError } from "mongoose";
+import { MongooseError } from "mongoose";
 import bcrypt from "bcrypt";
-import dotenv from "dotenv";
 import { validate } from "../middlewares/validate";
 import { userSchema } from "../schemas/user";
 import jwt from "jsonwebtoken";
-
-dotenv.config();
-mongoose.connect(process.env.MONGO_URL ?? "");
 
 export const userRouter = Router();
 
@@ -42,11 +38,17 @@ userRouter.post("/signin", async (req, res) => {
   const user = await User.findOne({
     username: username,
   });
-  const isPasswordMatch = await bcrypt.compare(password, user?.password ?? "");
+  if (!user) {
+    res.status(400).json({
+      msg: "Incorrect username",
+    });
+    return;
+  }
+  const isPasswordMatch = await bcrypt.compare(password, user.password ?? "");
   if (isPasswordMatch) {
     const token = jwt.sign(
       {
-        username: username,
+        id: user._id,
       },
       process.env.JWT_SECRET ?? ""
     );

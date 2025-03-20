@@ -1,6 +1,6 @@
 export enum typeEnum {
-  link,
-  tweet,
-  document,
-  youtube,
+  link = "link",
+  tweet = "tweet",
+  document = "document",
+  youtube = "youtube",
 }
