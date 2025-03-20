@@ -12,8 +12,8 @@ export const auth = (req: Request, res: Response, next: NextFunction) => {
       req.body.id = decoded.id;
       next();
     } else {
-      res.status(401).json({
-        msg: "Bearer token required.",
+      res.status(403).json({
+        msg: "You're not logged in",
       });
       return;
     }

@@ -5,10 +5,17 @@ import { contentSchema } from "../schemas/content";
 export const contentRouter = Router();
 
 contentRouter.get("/getAll", async (req, res) => {
-  const content = await Content.find({ userId: req.body.id.toString() });
-  res.json({
-    content: content,
-  });
+  try {
+    const content = await Content.find({ userId: req.body.id.toString() });
+    res.json({
+      content: content,
+    });
+  } catch (err) {
+    res.json({
+      msg: (err as Error).message,
+      errorStack: (err as Error).stack,
+    });
+  }
 });
 
 contentRouter.post("/add", validate(contentSchema), async (req, res) => {
@@ -27,8 +34,36 @@ contentRouter.post("/add", validate(contentSchema), async (req, res) => {
       msg: "Content added successfully.",
     });
   } catch (err) {
-    res.status(500).json({
-      msg: "Server Error",
+    res.json({
+      msg: (err as Error).message,
+      errorStack: (err as Error).stack,
+    });
+  }
+});
+
+contentRouter.delete("/delete", async (req, res) => {
+  try {
+    const { contentId } = req.body;
+    if (contentId) {
+      const deleted = await Content.deleteOne({ _id: contentId });
+      if (deleted.deletedCount > 0) {
+        res.json({
+          msg: "Content deleted",
+        });
+      } else {
+        res.json({
+          msg: `No content found with id : ${contentId}`,
+        });
+      }
+    } else {
+      res.status(400).json({
+        msg: "No content id passed",
+      });
+    }
+  } catch (err) {
+    res.json({
+      msg: (err as Error).message,
+      errorStack: (err as Error).stack,
     });
   }
 });

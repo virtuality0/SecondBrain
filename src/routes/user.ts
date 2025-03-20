@@ -26,7 +26,8 @@ userRouter.post("/signup", validate(userSchema), async (req, res) => {
       });
     } else {
       res.status(500).json({
-        error: "Server Error",
+        msg: (err as Error).message,
+        errorStack: (err as Error).stack,
       });
     }
   }
