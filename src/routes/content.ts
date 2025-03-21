@@ -2,23 +2,24 @@ import { Router } from "express";
 import { Content } from "../db";
 import { validate } from "../middlewares/validate";
 import { contentSchema } from "../schemas/content";
+import { auth } from "../middlewares/auth";
 export const contentRouter = Router();
 
-contentRouter.get("/getAll", async (req, res) => {
+contentRouter.get("/getAll", auth, async (req, res) => {
   try {
     const content = await Content.find({ userId: req.body.id.toString() });
     res.json({
       content: content,
     });
   } catch (err) {
-    res.json({
+    res.status(500).json({
       msg: (err as Error).message,
       errorStack: (err as Error).stack,
     });
   }
 });
 
-contentRouter.post("/add", validate(contentSchema), async (req, res) => {
+contentRouter.post("/add", auth, validate(contentSchema), async (req, res) => {
   const { title, tags, link, type } = req.body;
   const userId = req.body.id;
   try {
@@ -34,7 +35,7 @@ contentRouter.post("/add", validate(contentSchema), async (req, res) => {
       msg: "Content added successfully.",
     });
   } catch (err) {
-    res.json({
+    res.status(500).json({
       msg: (err as Error).message,
       errorStack: (err as Error).stack,
     });
@@ -61,7 +62,7 @@ contentRouter.delete("/delete", async (req, res) => {
       });
     }
   } catch (err) {
-    res.json({
+    res.status(500).json({
       msg: (err as Error).message,
       errorStack: (err as Error).stack,
     });

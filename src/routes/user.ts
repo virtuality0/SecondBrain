@@ -21,7 +21,7 @@ userRouter.post("/signup", validate(userSchema), async (req, res) => {
     });
   } catch (err) {
     if (err instanceof MongooseError) {
-      res.status(411).json({
+      res.status(500).json({
         error: err.message,
       });
     } else {
@@ -40,7 +40,7 @@ userRouter.post("/signin", async (req, res) => {
     username: username,
   });
   if (!user) {
-    res.status(400).json({
+    res.status(401).json({
       msg: "Incorrect username",
     });
     return;
@@ -58,7 +58,7 @@ userRouter.post("/signin", async (req, res) => {
       token: token,
     });
   } else {
-    res.json({
+    res.status(401).json({
       msg: "Invalid credentials",
     });
   }

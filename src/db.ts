@@ -33,10 +33,10 @@ const linkSchema = new Schema({
 });
 
 // Create models from Schemas
-const User = model("Users", userSchema);
-const Content = model("Contents", contentSchema);
-const Link = model("Links", linkSchema);
-const Tag = model("Tags", tagSchema);
+const User = model("User", userSchema);
+const Content = model("Content", contentSchema);
+const Link = model("Link", linkSchema);
+const Tag = model("Tag", tagSchema);
 
 // exporting models
 export { User, Content, Link, Tag };
