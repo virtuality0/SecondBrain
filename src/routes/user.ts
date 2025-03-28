@@ -22,7 +22,7 @@ userRouter.post("/signup", validate(userSchema), async (req, res) => {
   } catch (err) {
     if (err instanceof MongooseError) {
       res.status(500).json({
-        error: err.message,
+        msg: err.message,
       });
     } else {
       res.status(500).json({
@@ -41,7 +41,7 @@ userRouter.post("/signin", async (req, res) => {
   });
   if (!user) {
     res.status(401).json({
-      msg: "Incorrect username",
+      msg: `No account with username ${username} found.`,
     });
     return;
   }
