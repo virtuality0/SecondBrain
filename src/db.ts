@@ -18,6 +18,7 @@ const contentSchema = new Schema({
   link: String,
   tags: [{ type: Schema.Types.ObjectId, ref: "Tag" }],
   title: String,
+  createdAt: String,
 });
 
 const tagSchema = new Schema({

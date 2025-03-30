@@ -21,7 +21,7 @@ brainRouter.post("/share", auth, async (req, res) => {
         return;
       }
       const hash = await bcrypt.hash(userId, 5);
-      const hashWithoutSlash = hash.replace(/\//g, "FSlash"); // in order to avoid / in hash so when I hit the endpoint it dosen't give me 404
+      const hashWithoutSlash = hash.replace(/\//g, "Fs"); // in order to avoid / in hash so when I hit the endpoint it dosen't give me 404
       await Link.create({
         userId: userId,
         hash: hashWithoutSlash,

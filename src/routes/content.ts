@@ -29,6 +29,7 @@ contentRouter.post("/add", auth, validate(contentSchema), async (req, res) => {
       type: type,
       userId: userId,
       tags: tags, // have to do sth about tags
+      createdAt: new Date().toLocaleDateString(),
     });
 
     res.json({
@@ -42,9 +43,9 @@ contentRouter.post("/add", auth, validate(contentSchema), async (req, res) => {
   }
 });
 
-contentRouter.delete("/delete", async (req, res) => {
+contentRouter.delete("/delete/:contentId", async (req, res) => {
   try {
-    const { contentId } = req.body;
+    const contentId = req.params.contentId;
     if (contentId) {
       const deleted = await Content.deleteOne({ _id: contentId });
       if (deleted.deletedCount > 0) {
