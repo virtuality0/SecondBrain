@@ -10,7 +10,11 @@ dotenv.config();
 mongoose.connect(process.env.MONGO_URL ?? "");
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://secondbrain-oz8s.onrender.com",
+  })
+);
 app.use(express.json()); // to be able to parse body in post requests
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/content", contentRouter);
