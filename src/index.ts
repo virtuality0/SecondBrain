@@ -16,6 +16,12 @@ app.use("/api/v1/user", userRouter);
 app.use("/api/v1/content", contentRouter);
 app.use("/api/v1/brain", brainRouter);
 
+app.get("/", (_, res) => {
+  res.json({
+    Status: "running",
+  });
+});
+
 app.listen(process.env.PORT, () => {
   console.log(`Listening on port ${process.env.PORT}`);
 });
