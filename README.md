@@ -6,4 +6,4 @@ Second Brain is an application that lets you store tweets, youtube videos, links
 2. npm install
 
 # Deployment Link 
-Currently it's deployed at : <a name="https://secondbrain-oz8s.onrender.com" />
+Currently it's deployed at : https://secondbrain-oz8s.onrender.com
