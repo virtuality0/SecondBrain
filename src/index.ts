@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import { brainRouter } from "./routes/brain";
 import cors from "cors";
+import { VercelRequest, VercelResponse } from "@vercel/node";
 
 dotenv.config();
 mongoose.connect(process.env.MONGO_URL ?? "");
@@ -28,6 +29,6 @@ app.get("/", (_, res) => {
   });
 });
 
-app.listen(process.env.PORT, () => {
-  console.log(`Listening on port ${process.env.PORT}`);
-});
+export default (req: VercelRequest, res: VercelResponse) => {
+  return app(req, res);
+};
