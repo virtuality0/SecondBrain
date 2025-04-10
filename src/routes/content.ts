@@ -6,8 +6,12 @@ import { auth } from "../middlewares/auth";
 export const contentRouter = Router();
 
 contentRouter.get("/getAll", auth, async (req, res) => {
+  const type = req.query.type;
   try {
-    const content = await Content.find({ userId: req.body.id.toString() });
+    const content = await Content.find({
+      userId: req.body.id.toString(),
+      type: type ?? { $in: ["youtube", "tweet", "link"] },
+    });
     res.json({
       content: content,
     });
