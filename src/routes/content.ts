@@ -10,7 +10,10 @@ contentRouter.get("/getAll", auth, async (req, res) => {
   try {
     const content = await Content.find({
       userId: req.body.id.toString(),
-      type: type ?? { $in: ["youtube", "tweet", "link"] },
+      type:
+        type === "all"
+          ? { $in: ["youtube", "tweet", "link"] }
+          : { $in: [type] },
     });
     res.json({
       content: content,
